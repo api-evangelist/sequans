@@ -1,19 +1,54 @@
 aid: sequans
 name: Sequans
-description: 'Sequans is a company surfaced as a portfolio company of serena and added to the API Evangelist
-  network as a stub for enrichment. Sector: unknown. This profile is a lead awaiting the enrichment pipeline.'
+description: 'Sequans Communications S.A. (NYSE: SQNS) is a fabless semiconductor company founded in 2003
+  and headquartered in Paris, France, designing and supplying 5G and 4G cellular IoT chips and modules.
+  Its massive-IoT portfolio is built on the Monarch LTE-M/NB-IoT and Calliope Cat 1bis platforms, and its
+  broadband-IoT portfolio on the Cassiopeia Cat 4/Cat 6 and Taurus 5G platforms, alongside the Iris
+  software-defined RF transceiver and licensable silicon and software IP. Sequans sells chips, modules and
+  IP to device makers rather than a developer-facing web API: its technical documentation, firmware, SDKs
+  and AT-command references are distributed through the my.sequans.com support zone and the
+  download.sequans.com customer portal, both of which require an account. The only anonymously reachable
+  machine-readable surfaces on sequans.com are the WordPress REST API behind the corporate site and a
+  WordPress MCP Adapter server advertised through RFC 8414 / RFC 9728 OAuth discovery documents.'
 url: https://raw.githubusercontent.com/api-evangelist/sequans/refs/heads/main/apis.yml
+image: https://sequans.com/wp-content/uploads/2025/07/cropped-sequans-logo.png.png
 x-type: company
 x-source: serena-portfolio
-x-tier: stub
-x-tier-reason: portfolio-lead
 specificationVersion: '0.20'
 created: '2026-08-17'
 modified: '2026-08-17'
 tags:
 - Company
-- Unknown
-apis: []
+- Semiconductors
+- Cellular IoT
+- 5G
+- LTE-M
+- NB-IoT
+- IoT Modules
+- Hardware
+- Telecommunications
+- France
+apis:
+- aid: sequans-site-mcp
+  name: Sequans Website MCP Server
+  description: 'A Model Context Protocol server exposed by the WordPress MCP Adapter running on the
+    sequans.com corporate site. Two MCP endpoints are registered and enumerable anonymously through the
+    WordPress REST route index (/wp-json/mcp): mcp-oauth-server and mcp-adapter-default-server. Both
+    reject anonymous JSON-RPC calls with HTTP 401, so the live tool list is auth-gated, but the OAuth
+    discovery documents (/.well-known/oauth-authorization-server and /.well-known/oauth-protected-resource)
+    are served anonymously and declare an authorization-code + PKCE (S256) flow with a single "mcp" scope.
+    This is the corporate website''s agent surface, not an API for Sequans chip or module products.'
+  humanURL: https://sequans.com/
+  baseURL: https://sequans.com/wp-json/mcp/mcp-oauth-server
+  tags:
+  - MCP
+  - Agent
+  - WordPress
+  properties:
+  - type: MCPServer
+    url: mcp/sequans-mcp.yml
+  - type: Authentication
+    url: authentication/sequans-authentication.yml
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
@@ -21,4 +56,40 @@ maintainers:
   email: info@apis.io
 common:
 - type: Website
-  url: http://www.sequans.com/
+  url: https://sequans.com/
+- type: Blog
+  url: https://sequans.com/sequans-blog/
+- type: Support
+  url: https://sequans.com/my-sequans/
+- type: HelpCenter
+  url: https://forum.sequans.com/
+- type: SignUp
+  url: https://signup.sequans.com/
+- type: PrivacyPolicy
+  url: https://sequans.com/sequans-privacy-policy/
+- type: GitHubOrganization
+  url: https://github.com/Sequans
+- type: WellKnown
+  url: well-known/sequans-well-known.yml
+- type: MCPServer
+  url: mcp/sequans-mcp.yml
+- type: Authentication
+  url: authentication/sequans-authentication.yml
+- type: OAuthScopes
+  url: scopes/sequans-scopes.yml
+- type: Conventions
+  url: conventions/sequans-conventions.yml
+- type: DomainSecurity
+  url: security/sequans-domain-security.yml
+- type: LLMsTxt
+  url: llms/sequans-llms.txt
+- type: Plans
+  url: plans/sequans-plans-pricing.yml
+- type: RateLimits
+  url: rate-limits/sequans-rate-limits.yml
+- type: Lifecycle
+  url: lifecycle/sequans-lifecycle.yml
+- type: Conformance
+  url: conformance/sequans-conformance.yml
+- type: Packages
+  url: packages/sequans-packages.yml
