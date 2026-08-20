@@ -42,6 +42,10 @@ apis:
   baseURL: https://sequans.com/wp-json/mcp/mcp-oauth-server
   tags:
   - MCP
+  - Agents
+  - WordPress
+  tags_raw:
+  - MCP
   - Agent
   - WordPress
   properties:
