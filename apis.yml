@@ -11,6 +11,17 @@ description: 'Sequans Communications S.A. (NYSE: SQNS) is a fabless semiconducto
   machine-readable surfaces on sequans.com are the WordPress REST API behind the corporate site and a
   WordPress MCP Adapter server advertised through RFC 8414 / RFC 9728 OAuth discovery documents.'
 url: https://raw.githubusercontent.com/api-evangelist/sequans/refs/heads/main/apis.yml
+deliveryModel:
+  model: saas
+  open_source: false
+  commercial: true
+  callable_host: false
+  label: Hosted service · you call their endpoint
+  confidence: medium
+  source:
+  - pricing
+  generated: '2026-08-28'
+  method: derived
 image: https://sequans.com/wp-content/uploads/2025/07/cropped-sequans-logo.png.png
 x-type: company
 x-source: serena-portfolio
