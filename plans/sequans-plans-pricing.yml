@@ -1,0 +1,35 @@
+generated: '2026-09-16'
+method: searched
+source: >-
+  https://sequans.com/ and its sitemap index (https://sequans.com/sitemap_index.xml), fetched
+  2026-09-16. https://sequans.com/pricing/ returns 404; no pricing, plans or packages page exists.
+description: >-
+  Sequans publishes no pricing of any kind. It is a fabless semiconductor company selling cellular
+  IoT chips, modules and licensable IP to device makers and carriers through a direct sales and
+  distribution-partner motion (global sales locations and a contact form). It sells no API product;
+  the only API-shaped surface, the website MCP server, carries no commercial terms.
+plan_count: 0
+api_plan_count: 0
+pricing_model: enterprise / contact-sales
+currency: null
+free_tier: false
+trial: false
+plans: []
+commercial_entry_points:
+- url: https://sequans.com/contact/
+  status: 200
+  kind: contact form
+- url: https://sequans.com/global-sales-locations/
+  status: 200
+  kind: regional sales offices
+- url: https://sequans.com/ecosystem/distribution-partners/
+  status: 200
+  kind: distribution partners
+probes:
+- url: https://sequans.com/pricing/
+  status: 404
+- url: https://sequans.com/sitemap_index.xml
+  status: 200
+  note: Nine sub-sitemaps (posts, pages, chipset-module, event, job, partner, whitepaper, category, tag); none pricing-related.
+note: >-
+  plan_count 0 is a measured finding, not an unchecked field.

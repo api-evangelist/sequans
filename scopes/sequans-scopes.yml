@@ -1,0 +1,42 @@
+generated: '2026-09-16'
+method: probed
+source: https://sequans.com/.well-known/oauth-authorization-server
+docs: null
+description: >-
+  Sequans' only OAuth surface is the authorization server the WordPress MCP Adapter advertises on
+  sequans.com for its remote MCP server. It declares a single coarse scope, `mcp`. Sequans publishes
+  no scope or permission reference and no OpenID Connect discovery document.
+schemes:
+- name: SequansMCPOAuth
+  type: oauth2
+  source: https://sequans.com/.well-known/oauth-authorization-server
+  issuer: https://sequans.com
+  flows:
+  - flow: authorizationCode
+    authorizationUrl: https://sequans.com/oauth/authorize
+    tokenUrl: https://sequans.com/oauth/token
+    revocationUrl: https://sequans.com/oauth/revoke
+    pkce: required
+    code_challenge_methods: [S256]
+    refresh_tokens: true
+    client_authentication: none (public client)
+    dynamic_client_registration: >-
+      No RFC 7591 registration_endpoint is advertised; client_id_metadata_document_supported is
+      true, so clients identify themselves with a client-ID metadata document URL.
+scopes:
+- scope: mcp
+  description: >-
+    Access the Sequans website MCP server at https://sequans.com/wp-json/mcp/mcp-oauth-server.
+    Single-scope model; no finer read/write split is advertised.
+  flows: [authorizationCode]
+  sources: [https://sequans.com/.well-known/oauth-authorization-server, https://sequans.com/.well-known/oauth-protected-resource]
+  protected_resource: https://sequans.com/wp-json/mcp/mcp-oauth-server
+x-evidence:
+  fetched: '2026-09-16'
+  probes:
+  - url: https://sequans.com/.well-known/oauth-authorization-server
+    status: 200
+  - url: https://sequans.com/.well-known/oauth-protected-resource
+    status: 200
+  - url: https://sequans.com/.well-known/openid-configuration
+    status: 404

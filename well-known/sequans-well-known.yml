@@ -1,0 +1,101 @@
+generated: '2026-09-16'
+method: probed
+source: probed /.well-known/* on every Sequans host in apis.yml (sequans.com, www.sequans.com, my.sequans.com, download.sequans.com, forum.sequans.com, signup.sequans.com)
+description: >-
+  Well-known discovery surface probed across the Sequans hosts on 2026-09-16. sequans.com serves
+  RFC 8414 OAuth authorization-server metadata and RFC 9728 OAuth protected-resource metadata, both
+  emitted by the WordPress MCP Adapter on the corporate site and both pointing at the remote MCP
+  server https://sequans.com/wp-json/mcp/mcp-oauth-server. The authorization_servers entry names
+  sequans.com itself, so there is no third auth host to probe. No security.txt (RFC 9116), no
+  api-catalog (RFC 9727), no OpenID Connect discovery, no ai-plugin.json, no MCP manifest and no
+  A2A agent card (agent-card.json or legacy agent.json) is served on any host. sequans.com answers
+  unmatched /.well-known/* paths with an HTTP 404 HTML page, so the two 200s are genuine JSON
+  documents, not a catch-all.
+hosts:
+- host: https://sequans.com
+  documents:
+  - path: /.well-known/oauth-authorization-server
+    status: 200
+    content_type: application/json; charset=UTF-8
+    file: sequans-oauth-authorization-server.json
+    spec: RFC 8414
+    note: Served after a 301 to the trailing-slash form https://sequans.com/.well-known/oauth-authorization-server/
+  - path: /.well-known/oauth-protected-resource
+    status: 200
+    content_type: application/json; charset=UTF-8
+    file: sequans-oauth-protected-resource.json
+    spec: RFC 9728
+    note: Served after a 301 to the trailing-slash form https://sequans.com/.well-known/oauth-protected-resource/
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/api-catalog
+    status: 404
+  - path: /.well-known/ai-plugin.json
+    status: 404
+  - path: /.well-known/mcp.json
+    status: 404
+  - path: /.well-known/agent-card.json
+    status: 404
+  - path: /.well-known/agent.json
+    status: 404
+- host: https://www.sequans.com
+  documents:
+  - path: /.well-known/security.txt
+    status: 301
+    note: www.sequans.com 301-redirects every path to sequans.com; results above apply.
+- host: https://my.sequans.com
+  documents:
+  - path: /.well-known/security.txt
+    status: 301
+    note: Redirects to https://sequans.com/my-.well-known/security.txt/ (a malformed rewrite, not a document). Same for every /.well-known/ path probed.
+- host: https://download.sequans.com
+  documents:
+  - path: /.well-known/security.txt
+    status: 301
+    note: The whole host 301-redirects to a Microsoft SharePoint customer site (sequanscommunicationsfrance.sharepoint.com); no discovery documents.
+- host: https://forum.sequans.com
+  documents:
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+  - path: /.well-known/oauth-protected-resource
+    status: 404
+  - path: /.well-known/api-catalog
+    status: 404
+  - path: /.well-known/agent-card.json
+    status: 404
+- host: https://signup.sequans.com
+  documents:
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+  - path: /.well-known/oauth-protected-resource
+    status: 404
+  - path: /.well-known/api-catalog
+    status: 404
+  - path: /.well-known/agent-card.json
+    status: 404
+other_discovery:
+  llms_txt:
+    url: https://sequans.com/llms.txt
+    status: 404
+  robots_txt:
+    url: https://sequans.com/robots.txt
+    status: 200
+  wordpress_rest_index:
+    url: https://sequans.com/wp-json/
+    status: 200
+    note: >-
+      WordPress REST discovery index (351 routes, 21 namespaces including mcp and wp-abilities/v1).
+      Not a /.well-known/ document; the mcp namespace index at /wp-json/mcp enumerates the two MCP
+      server routes anonymously.
+x-evidence:
+  fetched: '2026-09-16'

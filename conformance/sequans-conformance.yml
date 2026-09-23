@@ -1,0 +1,67 @@
+generated: '2026-09-16'
+method: derived
+source: well-known/sequans-oauth-authorization-server.json, well-known/sequans-oauth-protected-resource.json, https://sequans.com/quality/, https://sequans.com/security/
+description: >-
+  Standards Sequans' public surface demonstrably conforms to. The OAuth entries are read from the
+  discovery documents served on sequans.com by the WordPress MCP Adapter; the ISO 9001 and CRA
+  entries are Sequans' own published statements about its company and products. No domain standard
+  for Sequans' market (3GPP, GSMA) is exposed through an API contract, so none is claimed.
+conformance:
+- id: rfc8414
+  name: OAuth 2.0 Authorization Server Metadata
+  conforms: true
+  evidence: https://sequans.com/.well-known/oauth-authorization-server
+- id: rfc9728
+  name: OAuth 2.0 Protected Resource Metadata
+  conforms: true
+  evidence: https://sequans.com/.well-known/oauth-protected-resource (and the WWW-Authenticate resource_metadata challenge on https://sequans.com/wp-json/mcp/mcp-oauth-server)
+- id: oauth2
+  name: OAuth 2.0 / 2.1 authorization code
+  conforms: true
+  evidence: https://sequans.com/.well-known/oauth-authorization-server (grant_types_supported authorization_code, refresh_token)
+- id: rfc7636
+  name: PKCE
+  conforms: true
+  evidence: https://sequans.com/.well-known/oauth-authorization-server (code_challenge_methods_supported S256)
+- id: rfc9207
+  name: OAuth 2.0 Authorization Server Issuer Identification
+  conforms: true
+  evidence: https://sequans.com/.well-known/oauth-authorization-server (authorization_response_iss_parameter_supported true)
+- id: oidc
+  name: OpenID Connect Discovery
+  conforms: false
+  evidence: https://sequans.com/.well-known/openid-configuration returns 404
+- id: mcp
+  name: Model Context Protocol (remote, HTTP)
+  conforms: true
+  evidence: https://sequans.com/wp-json/mcp/mcp-oauth-server
+- id: rfc9457
+  name: Problem Details for HTTP APIs
+  conforms: false
+  evidence: 401 bodies use the WordPress {code, message, data.status} envelope with application/json
+- id: rfc9116
+  name: security.txt
+  conforms: false
+  evidence: https://sequans.com/.well-known/security.txt returns 404
+- id: iso-9001-2015
+  name: ISO 9001:2015 quality management
+  conforms: true
+  scope: company quality management system, certified by LRQA
+  evidence: https://sequans.com/wp-content/uploads/2025/07/ISO-certificate_0031536-QMS-ENGUS-UKAS.pdf
+- id: eu-cra
+  name: EU Cyber Resilience Act
+  conforms: null
+  scope: products (chips and modules)
+  note: >-
+    Sequans' security page describes the CRA obligations and its responsible disclosure policy and
+    security bulletins, but does not claim compliance; full CRA compliance is required by 2027-12-11.
+  evidence: https://sequans.com/security/
+x-evidence:
+  fetched: '2026-09-16'
+  probes:
+  - url: https://sequans.com/quality/
+    status: 200
+  - url: https://sequans.com/security/
+    status: 200
+  - url: https://sequans.com/wp-content/uploads/2025/07/ISO-certificate_0031536-QMS-ENGUS-UKAS.pdf
+    status: 200

@@ -1,0 +1,53 @@
+generated: '2026-09-16'
+method: probed
+source: live responses from https://sequans.com/wp-json/mcp/* and https://sequans.com/.well-known/oauth-* on 2026-09-16
+docs: null
+description: >-
+  Cross-cutting semantics of Sequans' only API-shaped surface, the WordPress MCP Adapter server on
+  sequans.com. Sequans documents none of this; each entry below was observed on the live host, and
+  where a convention is absent that absence is recorded. The tool list is auth-gated, so nothing is
+  asserted about individual tools.
+authentication:
+  style: OAuth 2.1 authorization code + PKCE (S256), bearer token in the Authorization header
+  challenge: RFC 9728 WWW-Authenticate with resource_metadata on 401
+  detail: authentication/sequans-authentication.yml
+protocol:
+  transport: MCP over HTTP (JSON-RPC 2.0)
+  methods_allowed: [POST, GET, DELETE]
+error_envelope:
+  format: wordpress-rest
+  rfc9457: false
+  shape: '{"code": "<string>", "message": "<string>", "data": {"status": <int>}}'
+  observed:
+  - code: mcp_unauthorized
+    status: 401
+    url: https://sequans.com/wp-json/mcp/mcp-oauth-server
+  - code: rest_forbidden
+    status: 401
+    url: https://sequans.com/wp-json/mcp/mcp-adapter-default-server
+cors:
+  access_control_allow_headers: Authorization, X-WP-Nonce, Content-Disposition, Content-MD5, Content-Type
+  access_control_expose_headers: X-WP-Total, X-WP-TotalPages, Link
+idempotency:
+  coverage: none
+  mechanism: null
+  note: No Idempotency-Key header or replay protection is documented or advertised.
+reversibility:
+  status: unknown
+  note: >-
+    The MCP tool list is auth-gated and undocumented, so whether any write ability exists, and
+    whether it can be reversed, cannot be established from public evidence. No reversal operation
+    or window is asserted.
+versioning:
+  scheme: none published
+rate_limit_signaling:
+  headers: none observed
+  detail: rate-limits/sequans-rate-limits.yml
+request_id: none observed
+x-evidence:
+  fetched: '2026-09-16'
+  probes:
+  - url: https://sequans.com/wp-json/mcp/mcp-oauth-server
+    status: 401
+  - url: https://sequans.com/wp-json/mcp/mcp-adapter-default-server
+    status: 401

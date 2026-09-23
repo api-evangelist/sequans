@@ -1,0 +1,28 @@
+generated: '2026-09-16'
+method: probed
+source: >-
+  Response headers observed on anonymous requests to https://sequans.com/wp-json/mcp/mcp-oauth-server,
+  https://sequans.com/wp-json/mcp/mcp-adapter-default-server and https://sequans.com/wp-json/wp/v2/posts
+  on 2026-09-16. Sequans publishes no documentation for the MCP server and therefore no rate-limit policy.
+description: >-
+  No rate limits are documented for the Sequans website MCP server, and none are signalled at
+  runtime: the anonymous 401 and 200 responses carry no X-RateLimit-*, RateLimit-* or Retry-After
+  headers. The site sits behind an edge cache (cf-edge-cache header, platform=wordpress) and
+  runs Wordfence, either of which may throttle abusive traffic, but neither publishes a limit.
+limit_count: 0
+headers: {}
+response_codes: {}
+limits: []
+observed_headers:
+- url: https://sequans.com/wp-json/mcp/mcp-oauth-server
+  status: 401
+  rate_limit_headers: none
+- url: https://sequans.com/wp-json/mcp/mcp-adapter-default-server
+  status: 401
+  rate_limit_headers: none
+- url: https://sequans.com/wp-json/wp/v2/posts?per_page=1
+  status: 200
+  rate_limit_headers: none
+note: >-
+  limit_count 0 is a measured zero: no published policy and no runtime signal on unauthenticated
+  responses. Authenticated MCP traffic was not observed.

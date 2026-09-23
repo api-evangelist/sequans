@@ -1,0 +1,3 @@
+
+
+{"resource":"https:\/\/sequans.com\/wp-json\/mcp\/mcp-oauth-server","authorization_servers":["https:\/\/sequans.com"],"bearer_methods_supported":["header"],"scopes_supported":["mcp"]}

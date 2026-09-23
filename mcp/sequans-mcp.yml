@@ -1,0 +1,82 @@
+generated: '2026-09-16'
+method: probed
+source: https://sequans.com/.well-known/oauth-protected-resource
+status: published
+description: >-
+  Sequans' corporate website (sequans.com, WordPress) runs the WordPress MCP Adapter, which exposes
+  a remote Model Context Protocol server. Sequans does not document or announce it anywhere; it was
+  found through the RFC 9728 protected-resource metadata on sequans.com and the anonymous
+  WordPress REST namespace index at /wp-json/mcp. What the server fronts is the WordPress content
+  and abilities of the corporate site, not an API for Sequans chips, modules or IP. Both MCP
+  endpoints reject anonymous JSON-RPC, so the tool list is not public.
+deployment:
+  mode: remote
+  endpoint: https://sequans.com/wp-json/mcp/mcp-oauth-server
+  auth: oauth
+  verified: probed
+server:
+  name: sequans
+  transport: http
+  url: https://sequans.com/wp-json/mcp/mcp-oauth-server
+  protocol: MCP over HTTP (JSON-RPC 2.0)
+  implementation: WordPress MCP Adapter on the sequans.com WordPress install (REST namespace `mcp`).
+  routes:
+  - path: /wp-json/mcp
+    methods: [GET]
+    role: namespace index (anonymous 200)
+  - path: /wp-json/mcp/mcp-oauth-server
+    methods: [POST, GET, DELETE]
+    role: OAuth-protected MCP server (the advertised protected resource)
+    anonymous_tools_list: 401 mcp_unauthorized with an RFC 9728 WWW-Authenticate challenge
+  - path: /wp-json/mcp/mcp-adapter-default-server
+    methods: [POST, GET, DELETE]
+    role: default MCP server instance
+    anonymous_tools_list: 401 rest_forbidden (WordPress capability check, no OAuth challenge)
+  companion_namespace:
+    name: wp-abilities/v1
+    path: /wp-json/wp-abilities/v1
+    note: >-
+      The WordPress Abilities API registry the adapter turns into tools. The namespace index
+      answers 200 anonymously; /wp-json/wp-abilities/v1/abilities returns 401 rest_forbidden.
+authorization:
+  required: true
+  model: OAuth 2.1 authorization code with PKCE
+  authorization_servers:
+  - https://sequans.com
+  issuer: https://sequans.com
+  authorization_endpoint: https://sequans.com/oauth/authorize
+  token_endpoint: https://sequans.com/oauth/token
+  revocation_endpoint: https://sequans.com/oauth/revoke
+  grant_types_supported: [authorization_code, refresh_token]
+  response_types_supported: [code]
+  code_challenge_methods_supported: [S256]
+  token_endpoint_auth_methods_supported: [none]
+  client_id_metadata_document_supported: true
+  bearer_methods_supported: [header]
+  scopes_supported: [mcp]
+  protected_resource: https://sequans.com/wp-json/mcp/mcp-oauth-server
+  challenge: 'WWW-Authenticate: Bearer realm="https://sequans.com", resource_metadata="https://sequans.com/.well-known/oauth-protected-resource"'
+  detail: scopes/sequans-scopes.yml
+tools:
+  discovered: false
+  note: >-
+    tools/list is auth-gated on both endpoints and Sequans publishes no llms.txt or documentation
+    naming the tools. No tool names are recorded here; enumerating them needs an authenticated
+    session.
+x-evidence:
+  fetched: '2026-09-16'
+  probes:
+  - url: https://sequans.com/wp-json/mcp
+    status: 200
+  - url: https://sequans.com/wp-json/mcp/mcp-oauth-server
+    method: POST tools/list
+    status: 401
+  - url: https://sequans.com/wp-json/mcp/mcp-adapter-default-server
+    method: POST tools/list
+    status: 401
+  - url: https://sequans.com/.well-known/oauth-protected-resource
+    status: 200
+  - url: https://sequans.com/.well-known/oauth-authorization-server
+    status: 200
+  - url: https://sequans.com/wp-json/wp-abilities/v1/abilities
+    status: 401
