@@ -76,6 +76,9 @@ apis:
     url: mcp/sequans-mcp.yml
   - type: Authentication
     url: authentication/sequans-authentication.yml
+  x-surface: platform-generated
+  x-platform: wordpress
+  x-platform-surface: mcp-plugin
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
